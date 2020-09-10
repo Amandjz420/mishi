@@ -18,7 +18,11 @@ class ProductInfoApi(CreateView):
               str(data['product_id']) + '.json'
         headers = {'Content-type': 'application/json'}
         resp = requests.get(url,  headers=headers)
-        return resp.json()
+        if resp.status_code == 200:
+            return resp.json()
+        else:
+            self.post_status_code = 400
+            return {"error": "invalid product id"}
 
 
 class CreateOrder(CreateView):
